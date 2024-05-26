@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load crispy_forms_tags %}
+
+  <div class="col-md-6 offset-md-3">
+    <h3>Giriş Yap:</h3>
+    <hr>
+    <div class="row">
+      <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <div class="btn-group" role="group" aria-label="Default button group">
+          <button type="submit" class="btn btn-outline-primary m-1">Giriş Yap</button>
+
+          <a href="{% url 'user:register' %}"><button type="button" class="btn btn-outline-primary m-1">Üye ol</button></a>
+          <a href="{% url 'index' %}"><button type="button" class="btn btn-outline-primary m-1">Ana Sayfa</button></a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

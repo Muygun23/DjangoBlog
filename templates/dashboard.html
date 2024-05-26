@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <h3>Kontrol Paneli</h3>
+  <hr />
+
+  <div class="img-thumbnail">
+    <p class="text-center mt-2">
+      Hoşgeldiniz; <span class="badge text-bg-primary text-wrap" style="width: 6rem;">{{ request.user.username }}</span>
+    </p>
+  </div>
+  <hr />
+
+  <a class="btn btn-outline-secondary d-inline-flex align-items-center" href="/articles/addarticle">
+    Makale Ekle
+    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+  </a>
+  </button>
+<hr>
+{% if articles %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Başlık</th>
+      <th scope="col">Yazar</th>
+      <th scope="col">Tarih</th>
+      <th scope="col">Güncelle</th>
+      <th scope="col">Sil</th>
+    </tr>
+  </thead>
+ <tbody>
+
+  {% for article in articles %}
+  <tr>
+    <th scope="row">{{ article.id }}</th>
+    <td><a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url "article:detail" article.id %}"> {{ article.title }}</a></td>
+    <td>{{ article.author.username }}</td>
+    <td>{{ article.created_date }}</td>
+    <td><a href="{% url "article:update" article.id %}" class="btn btn-danger">Güncelle</a></td>
+    <td><a href="{% url "article:delete" article.id %}" class="btn btn-danger">Sil</a></td>
+
+  </tr>
+  {% endfor %}
+    
+  </tbody>  
+</table>
+{% else %}
+
+<div class="alert alert-danger">
+  <p>
+    Henüz bir makaleniz bulunmamaktadır. Yeni makale eklemek için lütfen makale ekle butonuna basınız..
+  </p>
+</div>
+
+{% endif %}
+  
+{% endblock %}

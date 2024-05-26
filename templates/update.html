@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  {% load crispy_forms_tags %}
+
+  <div class="col-md-11 offset-md-1">
+    <h3>Makale Güncelle</h3>
+    <hr />
+    <div class="row">
+      <form method = "post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.media}}
+        {{form|crispy}}
+
+        <div class="btn-group" role="group" aria-label="Default button group">
+            <button type="submit" class="btn btn-outline-primary m-1">Kaydet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

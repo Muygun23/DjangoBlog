@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary text-center">
+    <h3>Makaleler</h3>
+  </div>
+  <form class="d-flex" role="search">
+    {% csrf_token %}
+    <input class="form-control me-2" type="search" name="keyword" placeholder="Makale Ara..." aria-label="Search" />
+    <button class="btn btn-outline-success" type="submit">Arama</button>
+  </form>
+  {% if articles %}
+    {% for article in articles %}
+      <hr />
+      <div class="row">
+        <div class="col-sm-12">
+          <!-- Post content -->
+          <article>
+            <!-- Post header -->
+            <header class="mb-4">
+              <!-- Post title -->
+
+              <a class="link-success link-offset-2 link-underline link-underline-opacity-0" href="{% url "article:detail" article.id %}"><h2 class="fw-bolder mb-1">{{ article.title }}</h2></a>
+
+              <!-- Post Author -->
+              <p class="lead">
+                <small>
+                  by
+                  <span class="badge text-bg-secondary text-wrap" style="width: 6rem;">{{ article.author.username }}</span>
+                </small>
+              </p>
+              <!-- Post Data/Time -->
+
+              <div class="text-muted fst-italic mb-2">{{ article.created_date }}</div>
+
+              <!-- Post categories -->
+              <!--      <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
+          <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                -->
+            </header>
+            <!-- Preview image figure -->
+            {% if article.article_image %}
+              <figure class="mb-4">
+                <a href="{% url "article:detail" article.id %}"><img class="img-fluid rounded" src="{{ article.article_image.url }}" alt="" /></a>
+              </figure>
+            {% endif %}
+            <!-- Post content -->
+            <section class="mb-5">
+              <div class="card bg-light">
+                <div class="card-body">
+                  <p class="fs-5 mb-4">{{ article.content|safe|truncatechars:250 }}</p>
+                  <a href="{% url "article:detail" article.id %}" class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Devamını Oku..</a>
+                </div>
+              </div>
+
+              <div class="btn-group mt-5" role="group" aria-label="Default button group">
+                <a href=" {% url "article:update" article.id %}" class="btn btn-outline-primary m-1">Güncelle</a>
+                <a href="{% url "article:delete" article.id %}" class="btn btn-outline-primary m-1">Sil</a>
+              </div>
+            </section>
+          </article>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="alert alert-danger">
+      <p>Makale bulunamadı..</p>
+    </div>
+  {% endif %}
+{% endblock %}
